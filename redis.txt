@@ -1,0 +1,41 @@
+daemonize yes 守护进程运行
+pidfile redis.pid pid文件存放位置
+bind 127.0.0.1  监听redis服务地址
+port 6379 redis默认服务端口
+timeout 300 客户端超过300秒未操作则断开连接
+loglevel verbose  记录日志级别
+database 16 可用的数据库
+rdbcompression yes  开启rdb持久化方式时当缓存数据写入到磁盘上时是否进行压缩
+rdbchecksum yes 压缩及解压缩rdb文件时是否进行校验
+dbfilename dump.rdb 本地数据库名
+dir /var/lib/redis/  本地数据库存放路径
+replicaof <masterip> <masterport>配置主redis地址和端口
+masterauth <master-password> 配置主redis连接密码
+requirepass foobared  配置redis连接密码
+maxclients 配置redis最大连接数
+maxmemory 配置redis可使用的最大内存
+appendonly yes  开启aof日志
+appendfilename  定义aof日志文件名
+appendfsync always|everysec|no
+replica-serve-stale-data yes 当主从连接失败时会进行错误报错
+replica-read-only yes 开启redis只读
+
+redis初始需要修改的配置项
+1.开启后台运行，定义rdb数据文件存放位置(需要提前创建)
+2.定义bind监听端口推荐不加127.0.0.1，写上本机ip地址
+3.定义连接redis的密码requirepass
+4.开启aof日志文件appendonly yes
+	           appendfsync always
+5.在两台从redis配置文件里写上主redis的信息
+6.三台redis服务器都创建日志存放目录
+7.三台redis统一修改日志文件存放位置和主从切换时所需密码
+配置redis哨兵
+1.拷贝哨兵配置文件(redis软件包目录下)
+2.修改哨兵配置文件
+①后台运行
+②bind监听地址
+③定义日志文件存放位置
+④配置哨兵监控主redis的ip和端口号
+⑤定义哨兵集群进行主从切换时所需密码
+
+
